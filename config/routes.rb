@@ -1,12 +1,15 @@
 Rails.application.routes.draw do
-  get "rooms/index"
-  get "rooms/new"
-  get "rooms/create"
-  get "rooms/show"
+  get "reservations/create"
+  get "reservations/index"
   root "rooms#index"
 
   resources :users, only: [:new, :create, :show, :edit, :update]
-  resources :rooms
+
+  resources :rooms do
+    resources :reservations, only: [:create]
+  end
+
+  resources :reservations, only: [:index]
 
   get    "/login",  to: "sessions#new"
   post   "/login",  to: "sessions#create"
