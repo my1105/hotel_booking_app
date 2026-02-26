@@ -3,5 +3,32 @@
 <p><%= @room.description %></p>
 <p>料金: ¥<%= @room.price %></p>
 <p>住所: <%= @room.address %></p>
+<hr>
 
+<h2>この施設を予約する</h2>
+
+<% if current_user %>
+  <%= form_with model: [@room, Reservation.new] do |f| %>
+    <div>
+      <%= f.label :check_in, "チェックイン日" %><br>
+      <%= f.date_field :check_in %>
+    </div>
+
+    <div>
+      <%= f.label :check_out, "チェックアウト日" %><br>
+      <%= f.date_field :check_out %>
+    </div>
+
+    <div>
+      <%= f.label :people, "人数" %><br>
+      <%= f.number_field :people, min: 1 %>
+    </div>
+
+    <div>
+      <%= f.submit "予約する" %>
+    </div>
+  <% end %>
+<% else %>
+  <p>予約するにはログインしてください</p>
+<% end %>
 <%= link_to "一覧に戻る", root_path %>
